@@ -41,7 +41,17 @@ namespace SignalrRDemo.ConsoleApp
             });
 
 
-            Console.Read();
+            while (true)
+            {
+                Console.WriteLine("Write a message and press Enter to send. Press E to exit.");
+                var message = Console.ReadLine();
+                if (message.ToLower() != "e")
+                {
+                    await connection.InvokeAsync("SendMessage", "Console_User", message);
+                }
+            }
+
+
         }
     }
 }
