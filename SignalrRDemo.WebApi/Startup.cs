@@ -25,7 +25,6 @@ namespace SignalrRDemo.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
             services.AddCors(o => o.AddPolicy("AllowSpecific", builder =>
             {
                 builder.WithOrigins("http://localhost:59777")
@@ -33,8 +32,11 @@ namespace SignalrRDemo.WebApi
                 .AllowCredentials();
             }));
 
-
             services.AddSignalR();
+            services.AddSingleton<ChatHub>();
+            services.AddSingleton<IChatHubProvider, ChatHubProvider>();
+
+
 
         }
 

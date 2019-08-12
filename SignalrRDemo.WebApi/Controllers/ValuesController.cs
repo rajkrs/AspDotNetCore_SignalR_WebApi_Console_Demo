@@ -13,16 +13,21 @@ namespace SignalrRDemo.WebApi.Controllers
     {
 
         private readonly IHubContext<ChatHub> _chatHubContext;
+        private readonly IChatHubProvider _chatHubProvider;
 
-        public ValuesController(IHubContext<ChatHub> chatHubContext)
+
+        public ValuesController(IHubContext<ChatHub> chatHubContext, IChatHubProvider chatHubProvider)
         {
             _chatHubContext = chatHubContext;
+            _chatHubProvider = chatHubProvider; 
+            
         }
         // GET api/values
         [HttpGet]
         public async Task<ActionResult<IEnumerable<string>>> GetAsync()
         {
-            await _chatHubContext.Clients.All.SendAsync("ReceiveMessage", "WebApi_caller", "Test message from value controller, webapi");
+            await _chatHubProvider.SendMessage("WebApi_caller", "Message from ChatHub.");
+            await _chatHubContext.Clients.All.SendAsync("ReceiveMessage", "WebApi_caller", "Message from ChatHubContext");
             return new string[] { "value1", "value2" };
         }
 
