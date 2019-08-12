@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace SignalrRDemo.WebApi.Controllers
 {
@@ -10,10 +11,18 @@ namespace SignalrRDemo.WebApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+
+        private readonly IHubContext<ChatHub> _chatHubContext;
+
+        public ValuesController(IHubContext<ChatHub> chatHubContext)
+        {
+            _chatHubContext = chatHubContext;
+        }
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<ActionResult<IEnumerable<string>>> GetAsync()
         {
+            await _chatHubContext.Clients.All.SendAsync("ReceiveMessage", "WebApi_caller", "Test message from value controller, webapi");
             return new string[] { "value1", "value2" };
         }
 

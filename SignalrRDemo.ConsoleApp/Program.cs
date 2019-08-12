@@ -18,6 +18,9 @@ namespace SignalrRDemo.ConsoleApp
                 Console.WriteLine("Connection started");
 
 
+                var uniqueConnectionId = await connection.InvokeAsync<string>("GetUniqueConnectionId");
+                Console.WriteLine("My Unique connection id: " + uniqueConnectionId);
+
                 System.Threading.Thread.Sleep(3000);
                 await connection.InvokeAsync("SendMessage",
                   "Console_User", "Hey, i am here.");

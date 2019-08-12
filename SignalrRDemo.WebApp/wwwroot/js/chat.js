@@ -13,8 +13,15 @@ connection.on("ReceiveMessage", function (user, message) {
     document.getElementById("messagesList").appendChild(li);
 });
 
+
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
+
+    connection.invoke('GetUniqueConnectionId').then(function (connectionId) {
+        //alert('connectionId is :' + connectionId);
+        document.getElementById('signalRConnectionId').innerHTML = "My Unique connection id: " + connectionId;
+    })
+
 }).catch(function (err) {
     return console.error(err.toString());
 });
