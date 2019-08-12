@@ -49,6 +49,9 @@ namespace SignalrRDemo.ConsoleApp
                 {
                     await connection.InvokeAsync("SendMessage", "Console_User", message);
                 }
+                else {
+                    return;
+                }
             }
 
 
